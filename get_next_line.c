@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:42:50 by strieste          #+#    #+#             */
-/*   Updated: 2025/10/18 18:57:15 by strieste         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:10:20 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,24 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcat(char *dest, const char *src, size_t n);
 
 
-// ssize_t	read_line(int fd, int read_fd, char *buff)
-// {
-// 	read_fd = read(fd, buff, BUFFER_SIZE)
-// }
-
 char	*get_next_line(int fd)
 {
-	static ssize_t	read_fd;
-	size_t			count;
-	char			buff[BUFFER_SIZE];
-	char			*final_str;
+	ssize_t		read_fd;
+	size_t		count;
+	char		buff[BUFFER_SIZE];
+	static char	*stock_fd;
+	char		*final_str;
 
 	if (!fd)
 		return (NULL);
 	read_fd = 1;
 	count = 0;
 	final_str = NULL;
-	while (buff[count] != '\n' && read_fd > 0 && count < BUFFER_SIZE)
+	buff[0] = '\0';
+	while (buff[count] != '\n' && read_fd > 0)
 	{
 		read_fd = read(fd, buff, BUFFER_SIZE);
-		while (buff[count] && buff[count] != '\n')
+		while (buff[count] && buff[count] != '\n' && count < BUFFER_SIZE)
 			count++;
 		final_str = ft_strjoin(final_str, buff);
 		if (!final_str)
@@ -57,7 +54,10 @@ int	main(void)
 	printf("%s\n", get_next_line(fd));
 	printf("%s\n", get_next_line(fd));
 	printf("%s\n", get_next_line(fd));
+	printf("%s\n", get_next_line(fd));
+	printf("%s\n", get_next_line(fd));
 
+	printf("%d\n", fd);
 	return (0);
 }
 
