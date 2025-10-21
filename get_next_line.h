@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:42:52 by strieste          #+#    #+#             */
-/*   Updated: 2025/10/20 13:44:58 by strieste         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:41:15 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <stdio.h>
 
 char	*get_next_line(int fd);
-
+size_t	ft_strlen(const char *str);
+char *ft_strdup(const char *s);
+char *ft_strjoin(char const *s1, char const *s2);
+char *ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif

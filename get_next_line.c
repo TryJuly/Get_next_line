@@ -6,138 +6,164 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:42:50 by strieste          #+#    #+#             */
-/*   Updated: 2025/10/20 14:10:20 by strieste         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:41:59 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strdup(const char *s);
-size_t	ft_strlen(const char *str);
-size_t	ft_strlcat(char *dest, const char *src, size_t n);
-
+char	*fill_stock(int fd);
 
 char	*get_next_line(int fd)
 {
-	ssize_t		read_fd;
-	size_t		count;
-	char		buff[BUFFER_SIZE];
-	static char	*stock_fd;
-	char		*final_str;
+	static char	*stock;
 
-	if (!fd)
+	stock = fill_stock(fd);
+	if (!stock)
 		return (NULL);
-	read_fd = 1;
-	count = 0;
-	final_str = NULL;
-	buff[0] = '\0';
-	while (buff[count] != '\n' && read_fd > 0)
+
 	{
-		read_fd = read(fd, buff, BUFFER_SIZE);
-		while (buff[count] && buff[count] != '\n' && count < BUFFER_SIZE)
-			count++;
-		final_str = ft_strjoin(final_str, buff);
-		if (!final_str)
+		state_fd = read(fd, buffer, BUFFER_SIZE);
+		if (state_fd <= 0)
 			return (NULL);
-		count = 0;
+		if (state_fd < BUFFER_SIZE)
+		{
+			buffer = ft_substr(buffer, 0, state_fd);
+			return (ft_strjoin(stock, buffer));
+		}
+		buffer[BUFFER_SIZE + 1] = '\0';
+		stock = ft_strjoin(stock, buffer);
+		if (!stock)
+			return (NULL);
+		while (stock[count] && stock[count] != '\n')
+			count++;
+		if (stock[count] == '\n')
+		{
+			buffer = ft_substr(stock, 0, count + 1);
+			temp = ft_substr(stock, count + 1, ft_strlen(stock));
+			free(stock);
+			stock = temp;
+			break ;
+		}
 	}
-	return (final_str);
+	return (buffer);
 }
 
-int	main(void)
+char	*fill_stock(int fd)
 {
-	int	fd;
+	char	*stock;
+	char	*buffer;
+	ssize_t	state_fd;
+	size_t	count;
+
+	state_fd = 1;
+	count = 0;
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	while (state_fd > 0)
+	{
+		state_fd = read(fd, buffer, BUFFER_SIZE);
+		if (state_fd <= 0)
+			return (NULL);
+		buffer[BUFFER_SIZE + 1] = '\0';
+		stock = ft_strjoin(stock, buffer);
+		if (!stock)
+			return (NULL);
+		while (stock[count] && stock[count] != '\n')
+			count++;
+		if (stock[count] == '\n')
+			break ;
+	}
+	return (stock);
+}
+
+int main(void)
+{
+	int fd;
 
 	fd = open("README.md", O_RDONLY);
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("%s", get_next_line(fd));
+	printf("---------------------\n");
+	printf("[%s]\n", get_next_line(fd));
+	printf("---------------------\n");
+	printf("[%s]\n", get_next_line(fd));
+	printf("---------------------\n");
+	printf("[%s]\n", get_next_line(fd));
+	printf("---------------------\n");
+	printf("[%s]\n", get_next_line(fd));
+	printf("---------------------\n");
+	printf("[%s]\n", get_next_line(fd));
+	printf("---------------------\n");
+	printf("[%s]\n", get_next_line(fd));
 
-	printf("%d\n", fd);
+	close(fd);
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	count;
-	size_t	count_s;
-	char	*p_strjoint;
+// char	*get_next_line(int fd)
+// {
+// 	static char *stock;
+// 	char *temp;
+// 	char *buffer;
+// 	size_t count;
+// 	ssize_t state_fd;
 
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	count = (ft_strlen(s1) + ft_strlen(s2));
-	p_strjoint = malloc((count + 1) * sizeof(char));
-	if (!p_strjoint)
-		return ((void *) 0);
-	count = 0;
-	count_s = 0;
-	while (s1[count])
-		p_strjoint[count++] = s1[count_s++];
-	count_s = 0;
-	while (s2[count_s])
-		p_strjoint[count++] = s2[count_s++];
-	p_strjoint[count] = '\0';
-	return (p_strjoint);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*p_str;
-	size_t	count;
-
-	count = ft_strlen(s);
-	p_str = malloc((count + 1) * sizeof(char));
-	if (!p_str)
-		return ((void *) 0);
-	count = 0;
-	while (s[count])
-	{
-		p_str[count] = s[count];
-		count++;
-	}
-	p_str[count] = '\0';
-	return (p_str);
-}
-
-size_t	ft_strlcat(char *dest, const char *src, size_t n)
-{
-	size_t	save;
-	size_t	count;
-	size_t	count_dest;
-	size_t	len_dest;
-	size_t	len_src;
-
-	len_src = ft_strlen(src);
-	if (n == 0)
-		return (len_src);
-	save = ft_strlen(dest);
-	len_dest = save;
-	count = 0;
-	if (n <= len_dest)
-		return (n + len_src);
-	count_dest = len_dest;
-	while (count < (n - 1) && src[count] && count_dest < (n - 1))
-	{
-		dest[count_dest] = src[count];
-		count_dest++;
-		count++;
-	}
-	dest[count_dest] = '\0';
-	return (save + len_src);
-}
+// 	count = 0;
+// 	state_fd = 1;
+// 	if (!stock)
+// 		stock = ft_strdup("");
+// 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+// 	if (!buffer)
+// 		return (NULL);
+// 	while (state_fd > 0)
+// 	{
+// 		state_fd = read(fd, buffer, BUFFER_SIZE);
+// 		if (state_fd <= 0)
+// 			return (NULL);
+// 		if (state_fd < BUFFER_SIZE)
+// 		{
+// 			buffer = ft_substr(buffer, 0, state_fd);
+// 			return (ft_strjoin(stock, buffer));
+// 		}
+// 		buffer[BUFFER_SIZE + 1] = '\0';
+// 		stock = ft_strjoin(stock, buffer);
+// 		if (!stock)
+// 			return (NULL);
+// 		while (stock[count] && stock[count] != '\n')
+// 			count++;
+// 		if (stock[count] == '\n')
+// 		{
+// 			buffer = ft_substr(stock, 0, count + 1);
+// 			temp = ft_substr(stock, count + 1, ft_strlen(stock));
+// 			free(stock);
+// 			stock = temp;
+// 			break ;
+// 		}
+// 	}
+// 	return (buffer);
+// }
