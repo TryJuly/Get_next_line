@@ -1,8 +1,9 @@
-- 1 
+- 1: 
 - 2: 0123456789
 - 3:
 - 4: 9876543210
 - 5:
+
 - 6: La journée commence. Il s’habille comme il peut tout en prenant son café. Chemise blanche repassée.
 - 7: La veille par lui-même. Une cravate comme tous les jours. Et son costume noir de chez Sam Montiel,
 - 8:très chic et très branché. Chaussures cuir noir. Comme il aime faire remarquer : "Vous êtes soit dans 
@@ -10,6 +11,6 @@
 - 10: vos chaussures, soit dans votre lit. Alors il faut de bonnes chaussures et une bonne literie !". La météo a annoncé un ciel bleu et des températures au-dessus de la normale saisonnière. C’est un très beau mois de mai qui s’annonce.
 - 11:
 - 12: Hello My friend;..:+
-- 13:
+- 13: 
 - 14: À la base militaire du 57e RA ? Mais qu’est-ce que j’ai à voir avec les militaires ?//
 - 15: T
