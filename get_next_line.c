@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:42:50 by strieste          #+#    #+#             */
-/*   Updated: 2025/10/23 15:30:58 by strieste         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:02:38 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	stock = fill_stock(fd, &stock, &buffer);
 	free(buffer);
-	if (!stock || *stock == '\0')
+	if (!stock)
 	{
 		free(stock);
 		stock = NULL;
@@ -45,11 +45,13 @@ char	*sort_stock(char **stock)
 {
 	char	*line;
 	char	*temp;
-	size_t	count;
+	ssize_t	count;
 
 	count = 0;
 	temp = *stock;
-	while (temp[count] && temp[count] != ((char) '\n'))
+	count = 0;
+	line = NULL;
+	while (temp[count] != ((char) '\n') && temp[count])
 		count++;
 	if ((temp[count] == ((char) '\n') && temp[count]) || temp[count] == '\0')
 	{
@@ -60,12 +62,10 @@ char	*sort_stock(char **stock)
 	}
 	*stock = ft_substr(temp, count, ft_strlen(temp));
 	free(temp);
-	if (**stock == '\0')
-		free(*stock);
-	if (!*stock)
+	if (*stock == ((char) '\0') || !*stock)
 	{
-		free(temp);
-		return (NULL);
+		free(*stock);
+		*stock = NULL;
 	}
 	return (line);
 }
@@ -97,8 +97,10 @@ size_t	ft_strchr_n(const char *s, int c)
 {
 	size_t	count;
 
+	if (!s)
+		return (0);
 	if ((unsigned char)c == '\0' && s)
-		return (1);
+		return (ft_strlen(s));
 	count = 0;
 	while (s[count])
 	{

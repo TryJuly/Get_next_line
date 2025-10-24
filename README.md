@@ -1,16 +1,16 @@
-- 1: 
-- 2: 0123456789
-- 3:
-- 4: 9876543210
-- 5:
-
-- 6: La journée commence. Il s’habille comme il peut tout en prenant son café. Chemise blanche repassée.
-- 7: La veille par lui-même. Une cravate comme tous les jours. Et son costume noir de chez Sam Montiel,
-- 8:très chic et très branché. Chaussures cuir noir. Comme il aime faire remarquer : "Vous êtes soit dans 
-- 9:
-- 10: vos chaussures, soit dans votre lit. Alors il faut de bonnes chaussures et une bonne literie !". La météo a annoncé un ciel bleu et des températures au-dessus de la normale saisonnière. C’est un très beau mois de mai qui s’annonce.
-- 11:
-- 12: Hello My friend;..:+
-- 13: 
-- 14: À la base militaire du 57e RA ? Mais qu’est-ce que j’ai à voir avec les militaires ?//
-- 15: T
+  --- Start ---
+2-Les oiseaux chantaient déjà, annonçant une journée paisible et lumineuse.
+B-Les oiseaux chantaient déjà, annonçant une journée paisible et lumineuse.
+3-Au loin, on distinguait les silhouettes des montagnes à peine éveillées.
+4-Un vieux chemin serpentait entre les arbres, couvert de feuilles humides.
+5-Les premières lueurs du matin faisaient scintiller les gouttes de rosée.
+6-Une odeur de bois et de terre fraîche emplissait l’air.
+7-Dans la cabane, un feu crépitait doucement dans l’âtre de pierre.
+8-Un chat s’étira longuement avant de bondir sur le rebord de la fenêtre.
+9-Le vent fit tinter la clochette suspendue à la porte d’entrée.
+10-Une tasse de café fumait sur la table en bois, oubliée un instant.
+11-Les heures du matin passaient lentement, rythmées par le chant du vent.
+12-Dehors, les pas dans la neige laissèrent des traces fragiles.
+13-Le village voisin s’éveillait doucement au son des cloches.
+14-Une lumière dorée baignait la vallée, chassant les dernières ombres.
+--- END ---
