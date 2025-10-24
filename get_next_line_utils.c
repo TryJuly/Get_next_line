@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:42:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/10/22 14:53:44 by strieste         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:10:08 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 			return (NULL);
 		count = 0;
 		count_s = 0;
-			while (s1[count])
+		while (s1[count])
 			p_strjoint[count++] = s1[count_s++];
 		count_s = 0;
 		while (s2[count_s])

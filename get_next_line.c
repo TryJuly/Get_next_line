@@ -6,21 +6,20 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:42:50 by strieste          #+#    #+#             */
-/*   Updated: 2025/10/22 15:02:43 by strieste         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:30:58 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char		*fill_stock(int fd, char *stock, char *buffer);
-static char		*get_str(char *stock);
-static char		*ft_back_start(char *stock);
-//static void	ft_buff_clean(char *buffer);
+char	*sort_stock(char **stock);
+char	*fill_stock(int fd, char **stock, char **buffer);
+size_t	ft_strchr_n(const char *s, int c);
 
 char	*get_next_line(int fd)
 {
 	static char	*stock;
-	char		*final_str;
+	char		*line;
 	char		*buffer;
 
 	if (!stock)
@@ -28,137 +27,133 @@ char	*get_next_line(int fd)
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	stock = fill_stock(fd, stock, buffer);
-	if (!stock || stock[0] == '\0')
+	stock = fill_stock(fd, &stock, &buffer);
+	free(buffer);
+	if (!stock || *stock == '\0')
 	{
-		free(buffer);
+		free(stock);
+		stock = NULL;
 		return (NULL);
 	}
-	free(buffer);
-	buffer = NULL;
-	final_str = get_str(stock);
-	if (!final_str)
+	line = sort_stock(&stock);
+	if (!line)
 		return (NULL);
-	stock = ft_back_start(stock);
-	if (!stock)
-		return (NULL);
-	return (final_str);
+	return (line);
 }
-// static void	ft_buff_clean(char *buffer)
-// {
-// 	size_t	count;
 
-// 	count = 0;
-// 	while (count < BUFFER_SIZE)
-// 		buffer[count++] = '\0';
-// }
-
-static char	*ft_back_start(char *stock)
+char	*sort_stock(char **stock)
 {
-	char	*back_stock;
+	char	*line;
+	char	*temp;
 	size_t	count;
 
 	count = 0;
-	while (stock[count] && stock[count] != '\n')
+	temp = *stock;
+	while (temp[count] && temp[count] != ((char) '\n'))
 		count++;
-	count++;
-	back_stock = ft_substr(stock, count, ft_strlen(stock));
-	if (!back_stock)
+	if ((temp[count] == ((char) '\n') && temp[count]) || temp[count] == '\0')
+	{
+		count++;
+		line = ft_substr(temp, 0, count);
+		if (!line)
+			return (NULL);
+	}
+	*stock = ft_substr(temp, count, ft_strlen(temp));
+	free(temp);
+	if (**stock == '\0')
+		free(*stock);
+	if (!*stock)
+	{
+		free(temp);
 		return (NULL);
-	free(stock);
-	stock = back_stock;
-	return (stock);
+	}
+	return (line);
 }
 
-static char	*get_str(char *stock)
+char	*fill_stock(int fd, char **stock, char **buffer)
 {
-	char	*str_back;
-	size_t	count;
-
-	count = 0;
-	while (stock[count] && stock[count] != '\n')
-		count++;
-	str_back = malloc((count + 1) * sizeof(char));
-	if (!str_back)
-		return (NULL);
-	str_back = ft_substr(stock, 0, count + 1);
-	return (str_back);
-}
-
-static char	*fill_stock(int fd, char *stock, char *buffer)
-{
+	char	*temp;
 	ssize_t	state_fd;
-	size_t	count;
 
 	state_fd = 1;
-	count = 0;
-	//ft_buff_clean(buffer);
 	while (state_fd > 0)
 	{
-		state_fd = read(fd, buffer, BUFFER_SIZE);
+		state_fd = read(fd, *buffer, BUFFER_SIZE);
 		if (state_fd == -1)
 			return (NULL);
-		else if (state_fd < BUFFER_SIZE || BUFFER_SIZE < 3)
-			buffer[state_fd] = '\0';
-		else
-			buffer[BUFFER_SIZE + 1] = '\0';
-		stock = ft_strjoin(stock, buffer);
-		if (!stock || stock == NULL)
+		((*buffer)[state_fd]) = '\0';
+		temp = *stock;
+		*stock = ft_strjoin(*stock, *buffer);
+		free(temp);
+		if (!*stock)
 			return (NULL);
-		while (stock[count] && stock[count] != '\n')
-			count++;
-		if (stock[count] == '\n')
+		if (ft_strchr_n(*stock, '\n'))
 			break ;
 	}
-	return (stock);
+	return (*stock);
 }
 
-int main(void)
+size_t	ft_strchr_n(const char *s, int c)
 {
-	int fd;
+	size_t	count;
 
-	fd = open("README.md", O_RDONLY);
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-	printf("---------------------\n");
-	printf("[%s]", get_next_line(fd));
-
-	close(fd);
+	if ((unsigned char)c == '\0' && s)
+		return (1);
+	count = 0;
+	while (s[count])
+	{
+		if (s[count] == (unsigned char)c)
+			return (1);
+		count++;
+	}
 	return (0);
 }
+//  int	main(void)
+//  {
+//  	int	fd;
+
+//  	fd = open("README.md", O_RDONLY);
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+//  	printf("---------------------\n");
+//  	printf("[%s]", get_next_line(fd));
+
+//  	close(fd);
+//  	return (0);
+//  }
 
 // char	*get_next_line(int fd)
 // {
