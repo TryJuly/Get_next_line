@@ -1,0 +1,47 @@
+break file:line
+
+set breakpoint at line number [in file] eg: break main.c:37
+break [file:]func set breakpoint at func [in file]
+break +offset
+break -offset
+
+set break at offset lines from current stop
+break *addr set breakpoint at address addr
+break set breakpoint at next instruction
+break . . . if expr break conditionally on nonzero exprn
+cond n [expr] new conditional expression on breakpoint
+n; make unconditional if no expr
+tbreak . . . temporary break; disable when reached
+rbreak regex break on all functions matching regex
+watch expr set a watchpoint for expression expr
+catch event break at event, which may be catch,
+throw, exec, fork, vfork, load, or unload.
+info break show defined breakpoints
+
+
+info watch show defined watchpoints clear delete breakpoints at next instruction clear [file:]fun delete breakpoints at entry to fun() clear [file:]line delete breakpoints on source line
+
+
+delete [n] delete breakpoints [or breakpoint n]
+disable [n] disable breakpoints [or breakpoint n]
+enable [n] enable breakpoints [or breakpoint n]
+enable once [n] enable breakpoints [or breakpoint n];
+disable again when reached
+enable del [n] enable breakpoints [or breakpoint n];
+delete when reached
+ignore n count ignore breakpoint n, count times
+commands n
+[silent]
+command-list
+execute GDB command-list every time
+breakpoint n is reached. [silent
+suppresses default display]
+end end of command-list
+Program Stack
+backtrace [n]
+bt [n] print trace of all frames in stack; or of n frames—innermost if n>0, outermost if n<0
+frame [n] select frame number n or frame at address n; if no n, display current frame up n select frame n frames up down n select frame n frames down
+info frame [addr] describe selected frame, or frame at addr
+info args arguments of selected frame
+info locals local variables of selected frame
+info reg [rn]. . . info all-reg [rn] register values [for regs rn] in selected frame; all-reg includes floating point
